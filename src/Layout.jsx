@@ -1,15 +1,18 @@
+import { Outlet } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import BlogsSection from "./components/main/BlogsSection";
 
-const Page = () => {
+const Layout = () => {
   return (
     <>
       <Header></Header>
-      <BlogsSection></BlogsSection>
+      <Outlet>
+        <BlogsSection></BlogsSection>
+      </Outlet>
       <Footer></Footer>
     </>
   );
 };
 
-export default Page;
+export default Layout;
