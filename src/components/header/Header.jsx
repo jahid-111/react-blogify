@@ -31,12 +31,12 @@ const Header = () => {
               </a>
             </li>
             <li>
-              <a
-                href="/login"
+              <Link
+                to="login"
                 className="text-white/50 hover:text-white transition-all duration-200"
               >
                 Login
-              </a>
+              </Link>
             </li>
             <li className="flex items-center">
               <div className="avater-img bg-orange-600 text-white">
