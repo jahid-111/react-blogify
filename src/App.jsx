@@ -7,6 +7,7 @@ import Search from "./components/pages/Search";
 import Profile from "./components/pages/Profile";
 import Register from "./components/pages/from/register";
 import LoginPage from "./components/pages/from/LoginPage";
+import ErrorPage from "./components/pages/error-page/ErrorPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/search" element={<Search></Search>} />
         <Route path="/me" element={<Profile></Profile>} />
       </Route>
+      <Route path="*" element={<ErrorPage></ErrorPage>} />
     </Routes>
   );
 }

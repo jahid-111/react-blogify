@@ -12,3 +12,7 @@
 
 - React-hook-from
 - Registration And Log In Page
+
+##### Commit-[04]
+
+- Error* Page 
