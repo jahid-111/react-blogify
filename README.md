@@ -15,4 +15,9 @@
 
 ##### Commit-[04]
 
-- Error* Page 
+- Error\* Page
+
+##### Commit -[05]
+
+- useBlogs() Hook
+- Blog Section

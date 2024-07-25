@@ -1,4 +1,6 @@
 const Profile = () => {
+  // const {value} = useBlogs()
+  // console.log(value)
   return (
     <div className="container mx-auto max-w-[1020px] py-8">
       <div className="flex flex-col items-center py-8 text-center">

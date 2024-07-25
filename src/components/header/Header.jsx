@@ -22,13 +22,13 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <a
-                href="/search"
+              <Link
+                to="search"
                 className="flex items-center gap-2 cursor-pointer"
               >
                 <img src={SearchSvg} alt="Search" />
                 <span>Search</span>
-              </a>
+              </Link>
             </li>
             <li>
               <Link
@@ -38,14 +38,16 @@ const Header = () => {
                 Login
               </Link>
             </li>
-            <li className="flex items-center">
+
+            {/* {if auth are true Name visible} */}
+            {/* <li className="flex items-center">
               <div className="avater-img bg-orange-600 text-white">
                 <span className="">J</span>
               </div>
               <Link to="/me">
                 <span className="text-white ml-2">Mohd. Jahidul Islam</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </nav>
