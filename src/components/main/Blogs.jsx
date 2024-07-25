@@ -1,4 +1,6 @@
 import useBlogs from "../../hooks/useBlogs";
+import ErrorData from "../pages/error-page/ErrorData";
+import LoadingFetch from "../pages/error-page/LoadingFetch";
 import CardBlog from "./CardBlog";
 
 const Blogs = () => {
@@ -8,9 +10,9 @@ const Blogs = () => {
   return (
     <div className="space-y-3 md:col-span-5">
       {loading ? (
-        <h2>Loading...</h2>
+        <LoadingFetch></LoadingFetch>
       ) : error ? (
-        <h2>Error: {error}</h2>
+        <ErrorData></ErrorData>
       ) : (
         blogs?.data?.blogs?.map((blog) => (
           <CardBlog key={blog.id} blog={blog} />

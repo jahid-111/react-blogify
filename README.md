@@ -21,3 +21,9 @@
 
 - useBlogs() Hook
 - Blog Section
+
+##### Commit -[06]
+
+- Outlet Error handling Component
+- ErrorData
+- LoadingFetch
