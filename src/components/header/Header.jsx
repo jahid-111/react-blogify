@@ -1,7 +1,10 @@
 import BrandLogo from "../../assets/logo.svg";
 import SearchSvg from "../../assets/icons/search.svg";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 const Header = () => {
+  const { auth } = useAuth();
+
   return (
     <header>
       <nav className="container">
@@ -30,24 +33,29 @@ const Header = () => {
                 <span>Search</span>
               </Link>
             </li>
-            <li>
-              <Link
-                to="login"
-                className="text-white/50 hover:text-white transition-all duration-200"
-              >
-                Login
-              </Link>
-            </li>
+
+            {/* =================================== {USER ACCESS CONDITION} ===================================*/}
+            {auth.user ? (
+              <li className="flex items-center">
+                <div className="avater-img bg-orange-600 text-white">
+                  <span className="">J</span>
+                </div>
+                <Link to="/me">
+                  <span className="text-white ml-2">{auth?.user?.firstName} {auth?.user?.lastName}</span>
+                </Link>
+              </li>
+            ) : (
+              <li>
+                <Link
+                  to="login"
+                  className="text-white/50 hover:text-white transition-all duration-200"
+                >
+                  Login
+                </Link>
+              </li>
+            )}
 
             {/* {if auth are true Name visible} */}
-            {/* <li className="flex items-center">
-              <div className="avater-img bg-orange-600 text-white">
-                <span className="">J</span>
-              </div>
-              <Link to="/me">
-                <span className="text-white ml-2">Mohd. Jahidul Islam</span>
-              </Link>
-            </li> */}
           </ul>
         </div>
       </nav>

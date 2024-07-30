@@ -1,6 +1,9 @@
+import { useAuth } from "../../hooks/useAuth";
+
 const Profile = () => {
-  // const {value} = useBlogs()
-  // console.log(value)
+  const { auth } = useAuth();
+
+  console.log(auth)
   return (
     <div className="container mx-auto max-w-[1020px] py-8">
       <div className="flex flex-col items-center py-8 text-center">
@@ -15,7 +18,7 @@ const Profile = () => {
         </div>
         <div>
           <h3 className="text-2xl font-semibold text-white lg:text-[28px]">
-            Mohd. Jahidul Islam
+            {auth?.user?.firstName} {auth?.user?.lastName}
           </h3>
           <p className="leading-[231%] lg:text-lg">jahidjob4@gmail.com</p>
         </div>

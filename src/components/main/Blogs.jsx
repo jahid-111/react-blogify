@@ -1,22 +1,26 @@
-import useBlogs from "../../hooks/useBlogs";
+import useFetch from "../../hooks/useFetch";
 import ErrorData from "../pages/error-page/ErrorData";
 import LoadingFetch from "../pages/error-page/LoadingFetch";
 import CardBlog from "./CardBlog";
 
 const Blogs = () => {
-  const { blogs, loading, error } = useBlogs();
-  // const blogData = blogs?.data?.blogs;
-  // console.log(blogData);
+  const {
+    data: blogs,
+    loading: blogsLoading,
+    error: blogsError,
+  } = useFetch("blogs");
+
+
+
+  // console.log(blogs)
   return (
     <div className="space-y-3 md:col-span-5">
-      {loading ? (
+      {blogsLoading ? (
         <LoadingFetch></LoadingFetch>
-      ) : error ? (
+      ) : blogsError ? (
         <ErrorData></ErrorData>
       ) : (
-        blogs?.data?.blogs?.map((blog) => (
-          <CardBlog key={blog.id} blog={blog} />
-        ))
+        blogs?.blogs?.map((blog) => <CardBlog key={blog.id} blog={blog} />)
       )}
     </div>
   );

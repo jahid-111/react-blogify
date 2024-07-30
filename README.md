@@ -27,3 +27,9 @@
 - Outlet Error handling Component
 - ErrorData
 - LoadingFetch
+
+###### Commit -[7]
+
+- Auth User token Implement
+- Click To Login
+- Auth Login Name Visible On Profile.

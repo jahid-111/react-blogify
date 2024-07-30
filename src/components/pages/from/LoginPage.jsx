@@ -1,19 +1,51 @@
 /* eslint-disable no-extra-boolean-cast */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FieldSet from "../../form-component/FieldSet";
 import Field from "../../form-component/Field";
+import axios from "axios";
 
 import { useForm } from "react-hook-form";
+import { useAuth } from "../../../hooks/useAuth";
 
 const LoginPage = () => {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
-  const submitForm = (formData) => {
-    console.log(formData);
+  const baseURL = import.meta.env.VITE_SERVER_BASE_URL;
+  console.log("Base URL:", baseURL);
+  const submitForm = async (formData) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`,
+        formData
+      );
+      if (response.status === 200) {
+        const { token, user } = response.data;
+
+        if (token) {
+          const authToken = token.accessToken;
+          const refreshToken = token.refreshToken;
+          // console.log("Auth", authToken, "====>>", "Refs", refreshToken);
+          setAuth({ user, authToken, refreshToken });
+          navigate("/");
+          // save to DB
+        }
+      }
+    } catch (error) {
+      setError("root.random", {
+        type: "random",
+        message: `User Not Valid "${formData.email}" Mail`,
+      });
+
+      console.log(error);
+    }
   };
 
   return (
@@ -28,11 +60,10 @@ const LoginPage = () => {
                 name="email"
                 id="email"
                 placeholder="Enter email"
-                className={`w-full p-3 bg-[#030317] border  rounded-md focus:outline-none ${
-                  !!errors.email
-                    ? " border-red-300"
-                    : "border-white/20 focus:border-indigo-500"
-                }`}
+                className={`w-full p-3 bg-[#030317] border  rounded-md focus:outline-none ${!!errors.email
+                  ? " border-red-300"
+                  : "border-white/20 focus:border-indigo-500"
+                  }`}
               />
             </Field>
             <Field label="Password" error={errors.password}>
@@ -48,14 +79,18 @@ const LoginPage = () => {
                 name="password"
                 id="password"
                 placeholder="Enter password"
-                className={`w-full p-3 bg-[#030317] border rounded-md focus:outline-none ${
-                  !!errors.password
-                    ? "border-red-300"
-                    : "border-white/20 focus:border-indigo-500"
-                }`}
+                className={`w-full p-3 bg-[#030317] border rounded-md focus:outline-none ${!!errors.password
+                  ? "border-red-300"
+                  : "border-white/20 focus:border-indigo-500"
+                  }`}
               />
             </Field>
           </FieldSet>
+
+          <p className=" my-2 vibrate text-red-400">
+            {" "}
+            {errors.root?.random?.message}{" "}
+          </p>
           <Field>
             <div className="my-6">
               <button

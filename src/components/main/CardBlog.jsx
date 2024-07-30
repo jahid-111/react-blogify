@@ -2,15 +2,16 @@
 
 import { Link } from "react-router-dom";
 
+
 const CardBlog = ({ blog }) => {
-  console.log(blog.likes.length);
+
   return (
     <>
       <div className="blog-card">
         {/*URL async Hook for image*/}
         <img
           className="blog-thumb"
-          src="./assets/blogs/React-Roadmap.jpg"
+          // src={}
           alt=""
         />
         <div className="mt-2 relative">

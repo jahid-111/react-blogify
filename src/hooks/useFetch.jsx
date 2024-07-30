@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useApi = () => {
-  const [blogs, setBlogs] = useState(null);
+const useFetch = (path) => {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:3000/blogs");
-        // console.log(response);
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_BASE_URL}/${path}`
+        );
 
-        if (response.status == 200) {
-          setBlogs(response);
+        if (response.status === 200) {
+          setData(response.data);
           setLoading(false);
         }
       } catch (error) {
@@ -25,9 +27,9 @@ const useApi = () => {
     };
 
     fetchData();
-  }, []);
+  }, [path]);
 
-  return { blogs, loading, error };
+  return { data, loading, error };
 };
 
-export default useApi;
+export default useFetch;
