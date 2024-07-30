@@ -33,3 +33,8 @@
 - Auth User token Implement
 - Click To Login
 - Auth Login Name Visible On Profile.
+
+###### Commit -[8]
+
+    **Note - something Wrong wih My Components
+    

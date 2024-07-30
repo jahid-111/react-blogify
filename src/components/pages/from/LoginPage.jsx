@@ -18,8 +18,6 @@ const LoginPage = () => {
     setError,
   } = useForm();
 
-  const baseURL = import.meta.env.VITE_SERVER_BASE_URL;
-  console.log("Base URL:", baseURL);
   const submitForm = async (formData) => {
     try {
       const response = await axios.post(
@@ -61,8 +59,8 @@ const LoginPage = () => {
                 id="email"
                 placeholder="Enter email"
                 className={`w-full p-3 bg-[#030317] border  rounded-md focus:outline-none ${!!errors.email
-                  ? " border-red-300"
-                  : "border-white/20 focus:border-indigo-500"
+                    ? " border-red-300"
+                    : "border-white/20 focus:border-indigo-500"
                   }`}
               />
             </Field>
@@ -80,8 +78,8 @@ const LoginPage = () => {
                 id="password"
                 placeholder="Enter password"
                 className={`w-full p-3 bg-[#030317] border rounded-md focus:outline-none ${!!errors.password
-                  ? "border-red-300"
-                  : "border-white/20 focus:border-indigo-500"
+                    ? "border-red-300"
+                    : "border-white/20 focus:border-indigo-500"
                   }`}
               />
             </Field>
