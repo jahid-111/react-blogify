@@ -37,4 +37,12 @@
 ###### Commit -[8]
 
     **Note - something Wrong wih My Components
-    
+
+-Profile refactor
+-Profile User
+-ProfileTimeline
+
+###### Commit -[9]
+
+-Single blog Route
+-Click to Blog Details(article)

@@ -5,9 +5,8 @@ import { Link } from "react-router-dom";
 const Timeline = ({ profile, auth }) => {
   return (
     <div className="my-6 space-y-4">
-      <h4 className="mt-6 text-xl text-center lg:mt-8 lg:text-2xl">
-      </h4>
-      {profile?.blogs?.length  === 0 ? (
+      <h4 className="mt-6  text-2xl text-gray-300 font-semibold lg:mt-8 lg:text-3xl">Timeline</h4>
+      {profile?.blogs?.length === 0 ? (
         <h3 className=" text-xl text-center text-green-400 hover:text-green-200   ">
           <Link to={"/create-blog"}>Create Blog 😍</Link>{" "}
         </h3>

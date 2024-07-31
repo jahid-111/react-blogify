@@ -1,5 +1,7 @@
 import { useAuth } from "../../hooks/useAuth";
 import useFetch from "../../hooks/useFetch";
+import ErrorData from "./error-page/ErrorData";
+import LoadingFetch from "./error-page/LoadingFetch";
 import ProfileUser from "./profile/ProfileUser";
 import Timeline from "./profile/Timeline";
 
@@ -12,14 +14,18 @@ const Profile = () => {
   } = useFetch(`Profile/${auth?.user?.id}`);
 
   return (
-
     <div className="container mx-auto max-w-[1020px] py-8">
-
-      <ProfileUser profile={profile} auth={auth}>  </ProfileUser>
-
-      {/*To Timeline */}
-
-      <Timeline profile={profile} auth={auth}></Timeline>
+      {profileLoading ? (
+        <LoadingFetch />
+      ) : profileError ? (
+        <ErrorData />
+      ) : (
+        <>
+          <ProfileUser profile={profile} auth={auth} />
+          {/*To Timeline */}
+          <Timeline profile={profile} auth={auth} />
+        </>
+      )}
     </div>
   );
 };

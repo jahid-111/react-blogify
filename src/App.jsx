@@ -8,6 +8,7 @@ import Profile from "./components/pages/Profile";
 import Register from "./components/pages/from/register";
 import LoginPage from "./components/pages/from/LoginPage";
 import ErrorPage from "./components/pages/error-page/ErrorPage";
+import SingleBlog from "./components/pages/single-blog/SingleBlog";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/register" element={<Register></Register>} />
         <Route path="/search" element={<Search></Search>} />
         <Route path="/me" element={<Profile></Profile>} />
+        <Route path="single-blog/:id" element={<SingleBlog />} />
       </Route>
       <Route path="*" element={<ErrorPage></ErrorPage>} />
     </Routes>

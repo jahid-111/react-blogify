@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 
 const ProfileUser = ({ profile, auth }) => {
   return (
@@ -26,7 +26,7 @@ const ProfileUser = ({ profile, auth }) => {
           {auth?.user?.firstName} {auth?.user?.lastName}
         </h3>
         <p className="leading-[231%] lg:text-lg">
-          {profile?.email && profile?.email}
+          {profile?.email ?? profile?.email}
         </p>
       </div>
 
