@@ -46,3 +46,7 @@
 
 -Single blog Route
 -Click to Blog Details(article)
+
+###### Commit -[10]
+
+-Load Comment.
