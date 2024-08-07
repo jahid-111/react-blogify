@@ -41,7 +41,9 @@ const Header = () => {
                   <span className="">J</span>
                 </div>
                 <Link to="/me">
-                  <span className="text-white ml-2">{auth?.user?.firstName} {auth?.user?.lastName}</span>
+                  <span className="text-white ml-2">
+                    {auth?.user?.firstName} {auth?.user?.lastName}
+                  </span>
                 </Link>
               </li>
             ) : (

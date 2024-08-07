@@ -1,21 +1,58 @@
-const ActionBlog = () => {
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
+import useToken from "../../../hooks/useToken";
+import { useNavigate } from "react-router-dom";
+
+const ActionBlog = ({ blog }) => {
+  const { auth } = useAuth();
+  const { api } = useToken();
+  const LikeActionError = useNavigate();
+
+  const [isLiked, setIsLiked] = useState(
+    blog?.likes.some((like) => like.id === auth?.user?.id) || false
+  );
+
+  const [likesCount, setLikesCount] = useState(blog?.likes.length || 0);
+
+  const handleLike = async () => {
+    try {
+      const response = await api.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${blog.id}/like`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${auth.authToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const { isLiked: newIsLiked, likes } = response.data;
+        setIsLiked(newIsLiked);
+        setLikesCount(likes.length);
+      }
+    } catch (error) {
+      console.warn(error.message);
+      if (!error.config.headers.Authorization) {
+        LikeActionError("/login");
+      }
+    }
+  };
+
   return (
     <div className="floating-action">
       <ul className="floating-action-menus">
-        <li>
-          <img src="./assets/icons/like.svg" alt="like" />
-          <span>10</span>
-        </li>
+        <li>Comment</li>
+
+        <li>Favorite</li>
 
         <li>
-          <img src="./assets/icons/heart.svg" alt="Favorite" />
+          <button onClick={handleLike}>
+            {isLiked ? "Liked" : "Like"}
+            <span> ( {likesCount} )</span>
+          </button>
         </li>
-        <a href="#comments">
-          <li>
-            <img src="./assets/icons/comment.svg" alt="Comments" />
-            <span>3</span>
-          </li>
-        </a>
       </ul>
     </div>
   );

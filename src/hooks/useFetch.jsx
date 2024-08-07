@@ -1,33 +1,38 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../data-api";
+import { useAuth } from "./useAuth";
+import useToken from "./useToken";
 
 const useFetch = (path) => {
+  const { auth, setAuth } = useAuth();
+  useToken();
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(null);
-  const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
+        const response = await api.get(
           `${import.meta.env.VITE_SERVER_BASE_URL}/${path}`
         );
-
         if (response.status === 200) {
+          // console.log("useFetch Response :", response);
+          setAuth((prevAuth) => ({
+            ...prevAuth,
+          }));
           setData(response.data);
-          setLoading(false);
         }
       } catch (error) {
-        setTimeout(() => {
-          setError(error.message);
-          setLoading(false);
-        }, 10000);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [path]);
+  }, [auth?.authToken, path, setAuth]);
 
   return { data, loading, error };
 };

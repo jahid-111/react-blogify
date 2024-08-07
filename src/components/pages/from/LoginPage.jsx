@@ -8,9 +8,9 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../../../hooks/useAuth";
 
 const LoginPage = () => {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
-
+  // console.log("auth Login || Check Server provider ID", auth);
   const {
     register,
     handleSubmit,
@@ -30,7 +30,8 @@ const LoginPage = () => {
         if (token) {
           const authToken = token.accessToken;
           const refreshToken = token.refreshToken;
-          // console.log("Auth", authToken, "====>>", "Refs", refreshToken);
+
+          // console.log("login time auth", authToken);
           setAuth({ user, authToken, refreshToken });
           navigate("/");
           // save to DB
@@ -58,10 +59,11 @@ const LoginPage = () => {
                 name="email"
                 id="email"
                 placeholder="Enter email"
-                className={`w-full p-3 bg-[#030317] border  rounded-md focus:outline-none ${!!errors.email
+                className={`w-full p-3 bg-[#030317] border  rounded-md focus:outline-none ${
+                  !!errors.email
                     ? " border-red-300"
                     : "border-white/20 focus:border-indigo-500"
-                  }`}
+                }`}
               />
             </Field>
             <Field label="Password" error={errors.password}>
@@ -77,10 +79,11 @@ const LoginPage = () => {
                 name="password"
                 id="password"
                 placeholder="Enter password"
-                className={`w-full p-3 bg-[#030317] border rounded-md focus:outline-none ${!!errors.password
+                className={`w-full p-3 bg-[#030317] border rounded-md focus:outline-none ${
+                  !!errors.password
                     ? "border-red-300"
                     : "border-white/20 focus:border-indigo-500"
-                  }`}
+                }`}
               />
             </Field>
           </FieldSet>

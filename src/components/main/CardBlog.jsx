@@ -3,19 +3,24 @@
 import { Link } from "react-router-dom";
 
 const CardBlog = ({ blog }) => {
+  // console.log(blog?.author?.id);
+  // console.log(blog.id)
 
   return (
     <div className="blog-card">
-      <img
-        className="blog-thumb"
-        src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/blog/${blog?.thumbnail
+      <Link to={`/single-blog/${blog.id}`}>
+        <img
+          className="blog-thumb"
+          src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/blog/${
+            blog?.thumbnail
           }`}
-        alt=""
-      />
+          alt={`${blog.author.firstName}'s Blog`}
+        />
+      </Link>
+
       <div className="mt-2 relative">
         <Link to={`/single-blog/${blog.id}`}>
           <h3 className="text-slate-300 text-xl lg:text-2xl">{blog.title}</h3>
-
         </Link>
         <p className="mb-6 text-base text-slate-500 mt-1">{blog.content}</p>
 
@@ -27,7 +32,10 @@ const CardBlog = ({ blog }) => {
 
             <div>
               <h5 className="text-slate-500 text-sm">
-                <Link to="/profile">
+                <Link
+                  className=" underline hover:text-green-500"
+                  to={`/profile/${blog?.author?.id}`}
+                >
                   {" "}
                   <span>{blog.author.firstName}</span>{" "}
                   <span>{blog?.author?.lastName}</span>
@@ -44,22 +52,6 @@ const CardBlog = ({ blog }) => {
           </div>
         </div>
 
-        {/* <div className="absolute right-0 top-0">
-            <button>
-              <img src="./assets/icons/3dots.svg" alt="3dots of Action" />
-            </button>
-
-            <div className="action-modal-container">
-              <button className="action-menu-item hover:text-lwsGreen">
-                <img src="./assets/icons/edit.svg" alt="Edit" />
-                Edit
-              </button>
-              <button className="action-menu-item hover:text-red-500">
-                <img src="./assets/icons/delete.svg" alt="Delete" />
-                Delete
-              </button>
-            </div>
-          </div> */}
       </div>
     </div>
   );

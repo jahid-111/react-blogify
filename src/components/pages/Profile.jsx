@@ -10,7 +10,8 @@ const Profile = () => {
   const { id } = useParams();
   const { auth } = useAuth();
 
-  const userId = auth?.user?.id ?? id;
+  const userId = id ?? auth?.user?.id;
+
   const {
     data: profile,
     loading: profileLoading,

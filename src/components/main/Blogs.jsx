@@ -10,6 +10,8 @@ const Blogs = () => {
     error: blogsError,
   } = useFetch("blogs");
 
+
+
   return (
     <div className="space-y-3 md:col-span-5">
       {blogsLoading ? (

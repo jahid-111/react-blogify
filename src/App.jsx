@@ -10,6 +10,10 @@ import LoginPage from "./components/pages/from/LoginPage";
 import ErrorPage from "./components/pages/error-page/ErrorPage";
 import SingleBlog from "./components/pages/single-blog/SingleBlog";
 
+
+
+// Bug new bug  : if auth auth are true , single blog are given acces.  (its will be public )  
+
 function App() {
   return (
     <Routes>

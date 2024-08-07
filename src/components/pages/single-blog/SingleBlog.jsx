@@ -26,7 +26,7 @@ const SingleBlog = () => {
           <Blog blog={blog}></Blog>
           <PostComment blog={blog}></PostComment>
           <BlogComments blog={blog}></BlogComments>
-          <ActionBlog></ActionBlog>
+          <ActionBlog blog={blog}></ActionBlog>
         </>
       )}
     </div>
