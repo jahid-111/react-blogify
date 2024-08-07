@@ -19,9 +19,11 @@ const PopularBlog = () => {
       >
         {data?.blogs?.map((popular) => (
           <li key={popular.id}>
-            <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
-              {popular?.title}
-            </h3>
+            <Link to={`/single-blog/${popular.id}`}>
+              <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
+                {popular?.title}
+              </h3>
+            </Link>
 
             <p className="text-slate-600 flex justify-between text-sm">
               <Link to={`/profile/${popular?.author?.id}`}>

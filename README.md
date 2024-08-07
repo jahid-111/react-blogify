@@ -65,6 +65,10 @@
 
 ###### Commit -[13]
 
-- useToken (), api **Interceptor.
+- useToken (), api \*\*Interceptor.
 - load Popular post
 - Action blog Like.
+
+###### Commit -[14]
+
+- Fav toggle Implement. (patch)
