@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import useToken from "../../../hooks/useToken";
 import { useNavigate } from "react-router-dom";
+import { AiFillLike } from "react-icons/ai";
+import { FaComment, FaHeart } from "react-icons/fa";
 
 const ActionBlog = ({ blog, onFocusTextarea }) => {
   const { auth } = useAuth();
@@ -77,19 +79,32 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
     <div className="floating-action">
       <ul className="floating-action-menus">
         <li>
-          <button onClick={onFocusTextarea}>Comment</button>{" "}
+          <button onClick={onFocusTextarea}>
+            {" "}
+            <FaComment className=" h-7 w-7" />{" "}
+          </button>{" "}
         </li>
 
         <li>
           <button onClick={handleFavorite}>
-            {isFavorite ? "Favorite" : "Add Favorite"}
+            {isFavorite ? (
+              <FaHeart className=" h-7 w-7 text-red-500" />
+            ) : (
+              <FaHeart className="h-7 w-7" />
+            )}
           </button>
         </li>
 
         <li>
           <button onClick={handleLike}>
-            {isLiked ? "Liked" : "Like"}
-            <span> ( {likesCount} )</span>
+            <div className=" flex gap-1 items-center  justify-center">
+              {isLiked ? (
+                <AiFillLike className="text-blue-600 h-7 w-7" />
+              ) : (
+                <AiFillLike className="h-7 w-7" />
+              )}
+              <span className="text-center "> {likesCount} </span>
+            </div>
           </button>
         </li>
       </ul>
