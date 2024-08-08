@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { AiFillLike } from "react-icons/ai";
 import { FaComment, FaHeart } from "react-icons/fa";
 import useFetch from "../../../hooks/useFetch";
+import { toast } from "react-toastify";
 
 const ActionBlog = ({ blog, onFocusTextarea }) => {
   const { auth } = useAuth();
   const { api } = useToken();
-  const LikeActionError = useNavigate();
+  const publicAction = useNavigate();
   // ======================================================== Like Action
   const [isLiked, setIsLiked] = useState(
     blog?.likes.some((like) => like.id === auth?.user?.id) || false
@@ -48,11 +49,17 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
         const { isLiked: newIsLiked, likes } = response.data;
         setIsLiked(newIsLiked);
         setLikesCount(likes.length);
+        if (newIsLiked) {
+          toast.success("Liked");
+        } else {
+          toast.error("Dislike");
+        }
       }
     } catch (error) {
       console.warn(error.message);
       if (!error.config.headers.Authorization) {
-        LikeActionError("/login");
+        publicAction("/login");
+        toast.error("Please Login");
       }
     }
   };
@@ -74,15 +81,19 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
         setIsFavorite(toggleIsFavorite);
         if (toggleIsFavorite) {
           setFavorite((prevFav) => [...prevFav, blog.id]);
+          toast.success("Added Favorite");
         } else {
           setFavorite((prevFav) => prevFav.filter((id) => id !== blog.id));
+          toast.error("Removed From Favorite");
         }
       }
     } catch (error) {
       console.error("Error updating favorite status:", error);
       if (!error.config.headers.Authorization) {
-        window.location.href = "/login";
+        publicAction("/login");
+        toast.error("Please Login");
       }
+      console.error("Error updating favorite status:", error);
     }
   };
 

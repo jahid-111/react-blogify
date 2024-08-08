@@ -3,6 +3,7 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const PostComment = ({ blog }, ref) => {
   const commentRef = useRef(null);
@@ -23,6 +24,7 @@ const PostComment = ({ blog }, ref) => {
         }
       } else {
         console.warn("User is not authenticated");
+        toast.error("Please Login");
         navigateComment("/login");
       }
     },

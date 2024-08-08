@@ -89,3 +89,5 @@
 
 - Favorite update,
 - Reload Page to hold on Fav Blog.
+
+###### Commit -[18]
