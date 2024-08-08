@@ -4,18 +4,18 @@ import { useAuth } from "../../../hooks/useAuth";
 import useToken from "../../../hooks/useToken";
 import { useNavigate } from "react-router-dom";
 
-const ActionBlog = ({ blog }) => {
+const ActionBlog = ({ blog, onFocusTextarea }) => {
   const { auth } = useAuth();
   const { api } = useToken();
   const LikeActionError = useNavigate();
 
+  // ----------------------------------------------------------- Like Action
   const [isLiked, setIsLiked] = useState(
     blog?.likes.some((like) => like.id === auth?.user?.id) || false
   );
   const [likesCount, setLikesCount] = useState(blog?.likes.length || 0);
 
-  // -----------------------------------------------------------
-
+  // ----------------------------------------------------------- Favorite Toggle
   const [fav, setFav] = useState([]);
   const [isFavorite, setIsFavorite] = useState(null);
 
@@ -76,7 +76,9 @@ const ActionBlog = ({ blog }) => {
   return (
     <div className="floating-action">
       <ul className="floating-action-menus">
-        <li>Comment</li>
+        <li>
+          <button onClick={onFocusTextarea}>Comment</button>{" "}
+        </li>
 
         <li>
           <button onClick={handleFavorite}>

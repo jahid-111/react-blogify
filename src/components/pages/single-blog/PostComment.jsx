@@ -1,6 +1,33 @@
 /* eslint-disable react/prop-types */
 
-const PostComment = ({ blog }) => {
+import { forwardRef, useImperativeHandle, useRef } from "react";
+import { useAuth } from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+
+const PostComment = ({ blog }, ref) => {
+  const commentRef = useRef(null);
+  const { auth } = useAuth();
+  const navigateComment = useNavigate();
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      if (auth?.user) {
+        if (commentRef.current) {
+          commentRef.current.focus();
+          commentRef.current.style.backgroundColor = "#39403b";
+          setTimeout(() => {
+            if (commentRef.current) {
+              commentRef.current.style.backgroundColor = "";
+            }
+          }, 1000);
+        }
+      } else {
+        console.warn("User is not authenticated");
+        navigateComment("/login");
+      }
+    },
+  }));
+
   return (
     <div className="mx-auto w-full md:w-10/12 container">
       <h2 className="text-3xl font-bold my-8">
@@ -13,6 +40,7 @@ const PostComment = ({ blog }) => {
 
         <div className="w-full">
           <textarea
+            ref={commentRef}
             className="w-full bg-[#030317] border border-slate-500 text-slate-300 p-4 rounded-md focus:outline-none"
             placeholder="Write a comment"
           ></textarea>
@@ -27,4 +55,4 @@ const PostComment = ({ blog }) => {
   );
 };
 
-export default PostComment;
+export default forwardRef(PostComment);

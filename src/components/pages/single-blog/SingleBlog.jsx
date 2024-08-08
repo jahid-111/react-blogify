@@ -6,9 +6,16 @@ import PostComment from "./PostComment";
 import ActionBlog from "./ActionBlog";
 import LoadingFetch from "../error-page/LoadingFetch";
 import ErrorData from "../error-page/ErrorData";
-
+import { useRef } from "react";
 const SingleBlog = () => {
   const { id } = useParams();
+
+  const commentRef = useRef(null);
+  const handleComment = () => {
+    if (commentRef.current) {
+      commentRef.current.focus();
+    }
+  };
 
   const {
     data: blog,
@@ -24,9 +31,9 @@ const SingleBlog = () => {
       ) : (
         <>
           <Blog blog={blog}></Blog>
-          <PostComment blog={blog}></PostComment>
+          <PostComment blog={blog} ref={commentRef}></PostComment>
           <BlogComments blog={blog}></BlogComments>
-          <ActionBlog blog={blog}></ActionBlog>
+          <ActionBlog onFocusTextarea={handleComment} blog={blog}></ActionBlog>
         </>
       )}
     </div>
