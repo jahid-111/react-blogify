@@ -84,3 +84,8 @@
 - i react icon
 - Action icon
 - CSS (index) change.
+
+###### Commit -[17]
+
+- Favorite update,
+- Reload Page to hold on Fav Blog.

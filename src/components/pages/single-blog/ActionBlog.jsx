@@ -1,25 +1,36 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import useToken from "../../../hooks/useToken";
 import { useNavigate } from "react-router-dom";
 import { AiFillLike } from "react-icons/ai";
 import { FaComment, FaHeart } from "react-icons/fa";
+import useFetch from "../../../hooks/useFetch";
 
 const ActionBlog = ({ blog, onFocusTextarea }) => {
   const { auth } = useAuth();
   const { api } = useToken();
   const LikeActionError = useNavigate();
-
-  // ----------------------------------------------------------- Like Action
+  // ======================================================== Like Action
   const [isLiked, setIsLiked] = useState(
     blog?.likes.some((like) => like.id === auth?.user?.id) || false
   );
   const [likesCount, setLikesCount] = useState(blog?.likes.length || 0);
 
-  // ----------------------------------------------------------- Favorite Toggle
-  const [fav, setFav] = useState([]);
+  // ======================================================== Favorite Toggle
+  const [fav, setFavorite] = useState([]);
   const [isFavorite, setIsFavorite] = useState(null);
+
+  const { data: favorites } = useFetch(`blogs/favourites`);
+
+  useEffect(() => {
+    //------------------- Favorites listen initial
+    if (favorites) {
+      const favoriteIds = favorites.blogs.map((fav) => fav.id);
+      setFavorite(favoriteIds);
+      setIsFavorite(favoriteIds.includes(blog?.id));
+    }
+  }, [favorites, blog?.id]);
 
   const handleLike = async () => {
     try {
@@ -50,7 +61,7 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
     try {
       const response = await api.patch(
         `${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${blog.id}/favourite`,
-        { fav },
+        {},
         {
           headers: {
             Authorization: `Bearer ${auth.authToken}`,
@@ -59,18 +70,18 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
       );
 
       if (response.status === 200) {
-        if (isFavorite) {
-          setFav((prevFav) => prevFav.filter((id) => id !== blog.id));
+        const toggleIsFavorite = response.data.isFavourite;
+        setIsFavorite(toggleIsFavorite);
+        if (toggleIsFavorite) {
+          setFavorite((prevFav) => [...prevFav, blog.id]);
         } else {
-          setFav((prevFav) => [...prevFav, blog.id]);
+          setFavorite((prevFav) => prevFav.filter((id) => id !== blog.id));
         }
-
-        setIsFavorite((prevIsFavorite) => !prevIsFavorite);
       }
     } catch (error) {
-      console.error("Error adding to favorites:", error);
+      console.error("Error updating favorite status:", error);
       if (!error.config.headers.Authorization) {
-        LikeActionError("/login");
+        window.location.href = "/login";
       }
     }
   };
@@ -88,10 +99,10 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
         <li>
           <button onClick={handleFavorite}>
             {isFavorite ? (
-              <FaHeart className=" h-7 w-7 text-red-500" />
+              <FaHeart className=" h-7 w-7 text-red-500"></FaHeart>
             ) : (
-              <FaHeart className="h-7 w-7" />
-            )}
+              <FaHeart className=" h-7 w-7 "></FaHeart>
+            )}{" "}
           </button>
         </li>
 
@@ -99,7 +110,7 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
           <button onClick={handleLike}>
             <div className=" flex gap-1 items-center  justify-center">
               {isLiked ? (
-                <AiFillLike className="text-blue-600 h-7 w-7" />
+                <AiFillLike className="text-blue-500 h-7 w-7" />
               ) : (
                 <AiFillLike className="h-7 w-7" />
               )}
