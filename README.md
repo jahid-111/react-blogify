@@ -91,3 +91,18 @@
 - Reload Page to hold on Fav Blog.
 
 ###### Commit -[18]
+
+- react-toastify.
+  => npm install --save react-toastify
+  => yarn add react-toastify
+
+###### Commit -[19]
+
+- Post comment
+- Post Comment Condition(Auth)
+
+###### Commit -[20]
+
+- Refactor Comment component and Data
+
+* Delete Comment

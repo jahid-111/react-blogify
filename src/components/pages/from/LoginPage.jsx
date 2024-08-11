@@ -6,9 +6,10 @@ import axios from "axios";
 
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
   // console.log("auth Login || Check Server provider ID", auth);
   const {
@@ -35,6 +36,7 @@ const LoginPage = () => {
           setAuth({ user, authToken, refreshToken });
           navigate("/");
           // save to DB
+          toast.success(`Login Done`);
         }
       }
     } catch (error) {

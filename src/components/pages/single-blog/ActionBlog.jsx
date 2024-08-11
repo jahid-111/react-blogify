@@ -1,25 +1,23 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import { useAuth } from "../../../hooks/useAuth";
-import useToken from "../../../hooks/useToken";
-import { useNavigate } from "react-router-dom";
 import { AiFillLike } from "react-icons/ai";
-import { FaComment, FaHeart } from "react-icons/fa";
-import useFetch from "../../../hooks/useFetch";
+import { api } from "../../../data-api";
+import { useAuth } from "../../../hooks/useAuth";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
+import useFetch from "../../../hooks/useFetch";
 
-const ActionBlog = ({ blog, onFocusTextarea }) => {
+const ActionBlog = ({ onFocusTextarea, blog }) => {
+  const navigate = useNavigate();
   const { auth } = useAuth();
-  const { api } = useToken();
-  const publicAction = useNavigate();
-  // ======================================================== Like Action
   const [isLiked, setIsLiked] = useState(
     blog?.likes.some((like) => like.id === auth?.user?.id) || false
   );
   const [likesCount, setLikesCount] = useState(blog?.likes.length || 0);
+  // ========================================================================
 
-  // ======================================================== Favorite Toggle
-  const [fav, setFavorite] = useState([]);
+  const [, setFavorite] = useState([]);
   const [isFavorite, setIsFavorite] = useState(null);
 
   const { data: favorites } = useFetch(`blogs/favourites`);
@@ -32,7 +30,6 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
       setIsFavorite(favoriteIds.includes(blog?.id));
     }
   }, [favorites, blog?.id]);
-
   const handleLike = async () => {
     try {
       const response = await api.post(
@@ -58,7 +55,7 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
     } catch (error) {
       console.warn(error.message);
       if (!error.config.headers.Authorization) {
-        publicAction("/login");
+        navigate("/login");
         toast.error("Please Login");
       }
     }
@@ -90,7 +87,7 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
     } catch (error) {
       console.error("Error updating favorite status:", error);
       if (!error.config.headers.Authorization) {
-        publicAction("/login");
+        navigate("/login");
         toast.error("Please Login");
       }
       console.error("Error updating favorite status:", error);
@@ -101,10 +98,16 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
     <div className="floating-action">
       <ul className="floating-action-menus">
         <li>
-          <button onClick={onFocusTextarea}>
-            {" "}
-            <FaComment className=" h-7 w-7" />{" "}
-          </button>{" "}
+          <button onClick={handleLike}>
+            <div className=" flex gap-1 items-center  justify-center">
+              {isLiked ? (
+                <AiFillLike className="text-blue-500 h-7 w-7" />
+              ) : (
+                <AiFillLike className="h-7 w-7" />
+              )}
+              <span className="text-center "> {likesCount} </span>
+            </div>
+          </button>
         </li>
 
         <li>
@@ -118,16 +121,7 @@ const ActionBlog = ({ blog, onFocusTextarea }) => {
         </li>
 
         <li>
-          <button onClick={handleLike}>
-            <div className=" flex gap-1 items-center  justify-center">
-              {isLiked ? (
-                <AiFillLike className="text-blue-500 h-7 w-7" />
-              ) : (
-                <AiFillLike className="h-7 w-7" />
-              )}
-              <span className="text-center "> {likesCount} </span>
-            </div>
-          </button>
+          <button onClick={onFocusTextarea}> Comment</button>{" "}
         </li>
       </ul>
     </div>
