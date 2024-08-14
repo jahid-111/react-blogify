@@ -1,17 +1,38 @@
 import { useForm } from "react-hook-form";
 import FieldSet from "../../form-component/FieldSet";
 import Field from "../../form-component/Field";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../../../data-api";
+import { toast } from "react-toastify";
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const submitForm = (formData) => {
+  const submitForm = async (formData) => {
     console.log(formData);
+    try {
+      const response = await api.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/auth/register`,
+        formData
+      );
+      // console.log(response);
+      if (response.status === 201) {
+        toast.success("Congratulations! Registration successful.");
+        navigate("/login");
+      }
+    } catch (error) {
+      // console.error(error);
+      if (error.response.status === 500) {
+        toast.error("Something went wrong. Please try again later.");
+      }
+      if (error.response.data.error) {
+        toast.warn(error.response.data.error);
+      }
+    }
   };
 
   return (
@@ -19,22 +40,22 @@ const Register = () => {
       <div className="w-full md:w-1/2  mx-auto bg-[#030317] p-8 rounded-md mt-12">
         <form onSubmit={handleSubmit(submitForm)}>
           <FieldSet label="Registration">
-            <Field label="First Name" error={errors.F_Name}>
+            <Field label="First Name" error={errors.firstName}>
               <input
-                {...register("F_Name", { required: "First Name required" })}
+                {...register("firstName", { required: "First Name required" })}
                 type="text"
-                name="F_Name"
-                id="F_Name"
+                name="firstName"
+                id="firstName"
                 placeholder="First Name"
                 className="w-full p-3 bg-[#030317] border border-white/20 rounded-md focus:outline-none focus:border-indigo-500"
               />
             </Field>
-            <Field label="Last Name (Optional)" error={errors.L_Name}>
+            <Field label="Last Name (Optional)" error={errors.lastName}>
               <input
-                {...register("L_Name")}
+                {...register("lastName")}
                 type="text"
-                name="L_Name"
-                id="L_Name"
+                name="lastName"
+                id="lastName"
                 placeholder="Last Name"
                 className="w-full p-3 bg-[#030317] border border-white/20 rounded-md focus:outline-none focus:border-indigo-500"
               />
@@ -50,13 +71,13 @@ const Register = () => {
               />
             </Field>
 
-            <Field label="Password" error={errors.password}>
+            <Field label="password" error={errors.password}>
               <input
                 {...register("password", {
-                  required: "Password required",
+                  required: "password required",
                   minLength: {
                     value: 8,
-                    message: `Password Must be 8`,
+                    message: `password Must be 8`,
                   },
                 })}
                 type="password"

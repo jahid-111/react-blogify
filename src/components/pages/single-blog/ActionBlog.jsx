@@ -5,7 +5,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
+import { FaComment, FaHeart } from "react-icons/fa";
 import useFetch from "../../../hooks/useFetch";
 
 const ActionBlog = ({ onFocusTextarea, blog }) => {
@@ -43,6 +43,7 @@ const ActionBlog = ({ onFocusTextarea, blog }) => {
       );
 
       if (response.status === 200) {
+        console.log(response);
         const { isLiked: newIsLiked, likes } = response.data;
         setIsLiked(newIsLiked);
         setLikesCount(likes.length);
@@ -121,7 +122,10 @@ const ActionBlog = ({ onFocusTextarea, blog }) => {
         </li>
 
         <li>
-          <button onClick={onFocusTextarea}> Comment</button>{" "}
+          <button onClick={onFocusTextarea}>
+            {" "}
+            <FaComment className=" h-7 w-7" />{" "}
+          </button>{" "}
         </li>
       </ul>
     </div>

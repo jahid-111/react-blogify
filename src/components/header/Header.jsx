@@ -2,6 +2,7 @@ import BrandLogo from "../../assets/logo.svg";
 import SearchSvg from "../../assets/icons/search.svg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { IoLogIn } from "react-icons/io5";
 const Header = () => {
   const { auth } = useAuth();
 
@@ -50,9 +51,13 @@ const Header = () => {
               <li>
                 <Link
                   to="login"
-                  className="text-white/50 hover:text-white transition-all duration-200"
+                  className="text-white/50 hover:text-white flex items-center justify-center
+                   gap-1 transition-all duration-200"
                 >
-                  Login
+                  <span>
+                    <IoLogIn className="text-4xl" />
+                  </span>
+                  <span> Login</span>
                 </Link>
               </li>
             )}

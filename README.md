@@ -106,3 +106,9 @@
 - Refactor Comment component and Data
 
 * Delete Comment
+
+###### Commit -[21]
+
+- Registration Form Implement Post
+- Use Logic to Create Account
+- Update (patch) User Bio.

@@ -2,7 +2,7 @@
 import { forwardRef } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 
-const PostComment = ({ onLoadComment, comments, onPostComment }, focusRef) => {
+const PostComment = ({ onLoadComment, comments, onPostComment, }, focusRef) => {
   const { auth } = useAuth();
 
   return (
