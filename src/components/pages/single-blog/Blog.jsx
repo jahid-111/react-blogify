@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 const Blog = ({ blog }) => {
+  console.log(blog);
   return (
     <>
       <h1 className="font-bold text-3xl md:text-5xl">{blog?.title}</h1>

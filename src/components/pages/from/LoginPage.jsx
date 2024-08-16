@@ -50,7 +50,7 @@ const LoginPage = () => {
   };
 
   return (
-    <section className=" w-ful  l xl:w-8/12 xl:px-[0px]  mx-auto">
+    <section className=" w-full xl:w-8/12 xl:px-[0px]  mx-auto">
       <div className="w-full md:w-1/2  mx-auto bg-[#030317] p-8 rounded-md mt-12">
         <form onSubmit={handleSubmit(submitForm)}>
           <FieldSet label="Login">

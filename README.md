@@ -112,3 +112,9 @@
 - Registration Form Implement Post
 - Use Logic to Create Account
 - Update (patch) User Bio.
+
+###### Commit -[22]
+
+- Create Post Blog.
+- get To Form Data.
+- Profile UI Updated and Condition.
