@@ -1,10 +1,15 @@
 import BrandLogo from "../../assets/logo.svg";
-import SearchSvg from "../../assets/icons/search.svg";
+
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { IoLogIn } from "react-icons/io5";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useState } from "react";
+import Search from "../pages/Search";
+import PortalModal from "../root-modal/PortalModal";
 const Header = () => {
   const { auth } = useAuth();
+  const [modal, setModal] = useState(false);
 
   return (
     <header>
@@ -26,13 +31,19 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="search"
+              <button
+                onClick={() => setModal(true)}
                 className="flex items-center gap-2 cursor-pointer"
               >
-                <img src={SearchSvg} alt="Search" />
+                <FaMagnifyingGlass />
                 <span>Search</span>
-              </Link>
+              </button>
+
+              {modal && (
+                <PortalModal>
+                  <Search onModalClose={setModal}></Search>
+                </PortalModal>
+              )}
             </li>
 
             {/* =================================== {USER ACCESS CONDITION} ===================================*/}
