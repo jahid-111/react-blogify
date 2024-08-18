@@ -54,7 +54,7 @@ const CreateBlog = () => {
       toast.error("Image Required");
       return;
     }
-
+    // =================================== POST BLOG API
     try {
       const response = await api.post(
         `${import.meta.env.VITE_SERVER_BASE_URL}/blogs`,
@@ -68,6 +68,7 @@ const CreateBlog = () => {
       );
 
       if (response.data.status === "success") {
+        console.log(response.data);
         toast.success(`${response.data.message}`);
         navigate(`/single-blog/${response?.data?.blog?.id}`);
       }

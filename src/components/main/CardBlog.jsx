@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
 
+import { forwardRef } from "react";
 import { Link } from "react-router-dom";
 
-const CardBlog = ({ blog }) => {
-  // console.log(blog?.author?.id);
-  // console.log(blog.id)
-
+const CardBlog = ({ blog }, ref) => {
   return (
-    <div className="blog-card">
+    <div ref={ref} className="blog-card">
       <Link to={`/single-blog/${blog.id}`}>
         <img
           className="blog-thumb"
@@ -51,10 +49,9 @@ const CardBlog = ({ blog }) => {
             <span> Likes {blog?.likes?.length}</span>
           </div>
         </div>
-
       </div>
     </div>
   );
 };
 
-export default CardBlog;
+export default forwardRef(CardBlog);

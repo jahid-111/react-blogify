@@ -6,6 +6,7 @@ import { BiEdit } from "react-icons/bi";
 const ProfileUser = ({ profile, auth, handleUserBio }) => {
   const [toggle, setToggle] = useState(false);
 
+  console.log(profile);
   const [bio, setBio] = useState(profile?.bio);
 
   const handleGetBioValue = (value) => {
@@ -35,7 +36,7 @@ const ProfileUser = ({ profile, auth, handleUserBio }) => {
       </div>
       <div>
         <h3 className="text-2xl font-semibold text-white lg:text-[28  px]">
-          {auth?.user?.firstName} {auth?.user?.lastName}
+          {profile?.firstName} {profile?.lastName}
         </h3>
         <p className="leading-[231%] lg:text-lg">
           {profile?.email ?? profile?.email}

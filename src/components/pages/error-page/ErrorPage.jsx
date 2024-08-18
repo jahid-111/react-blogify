@@ -1,21 +1,32 @@
 import { Link } from "react-router-dom";
 
-const ErrorPage = () => {
+const Error = () => {
   return (
-    <div className=" h-screen flex flex-col gap-6 justify-center text-center  items-center">
-      <h2 className=" text-5xl font-semibold text-red-500">Error</h2>
-      <h3 className=" text-2xl font-semibold">Page Not Found</h3>
-
-      <span className="  mt-10">
-        <Link
-          className=" underline text-green-600 text-xl hover:text-gray-500 "
-          to={"home"}
-        >
-          Check Web For Your Content
-        </Link>
-      </span>
-    </div>
+    <section className=" ">
+      <div className="w-full  px-4">
+        <div className="mx-auto  h-screen max-w-[400px]  flex flex-col justify-center items-center  text-center">
+          <h2 className="mb-2 text-[50px] font-bold leading-none text-white sm:text-[80px] md:text-[100px]">
+            404
+          </h2>
+          <h4 className="mb-3 text-[22px] font-semibold leading-tight text-white">
+            Oops! That page can’t be found
+          </h4>
+          <p className="mb-8 text-lg text-white">
+            The page you are looking for it maybe deleted
+          </p>
+          <Link
+            to="/"
+            className="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-white hover:text-gray-500"
+          >
+            Go To Home
+          </Link>
+        </div>
+      </div>
+      {/* 
+        <div className="absolute left-0 top-0 -z-10 flex h-full w-full items-center justify-between space-x-5 md:space-x-8 lg:space-x-14"></div> */}
+      {/* FOR BG IMAGE*/}
+    </section>
   );
 };
 
-export default ErrorPage;
+export default Error;
