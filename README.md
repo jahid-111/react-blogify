@@ -138,3 +138,8 @@
 - Portal Util.
 - Click To Link.
 - CSS Search Loader
+
+###### Commit -[26]
+
+- Delete a Blog.
+- Click Open toggle.
