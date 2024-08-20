@@ -7,9 +7,13 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useState } from "react";
 import Search from "../pages/Search";
 import PortalModal from "../root-modal/PortalModal";
+import CreateBlog from "../pages/Create-blog";
+import { IoIosCreate } from "react-icons/io";
 const Header = () => {
   const { auth } = useAuth();
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(null);
+
+  () => setModal(null); //IIFE
 
   return (
     <header>
@@ -22,29 +26,41 @@ const Header = () => {
 
         <div>
           <ul className="flex items-center space-x-5">
-            <li>
-              <Link
-                to="create-blog"
-                className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
-              >
-                Write
-              </Link>
-            </li>
+            {auth?.user && (
+              <li>
+                <button
+                  onClick={() => setModal("createBlog")}
+                  className=" flex items-center justify-center gap-2 ring-2 hover:ring-4 hover:bg-indigo-700 px-4 py-2 rounded-md"
+                >
+                  <span>Write</span>
+                  <span>
+                    <IoIosCreate className="inline-block" />
+                  </span>
+                </button>
+              </li>
+            )}
+
             <li>
               <button
-                onClick={() => setModal(true)}
-                className="flex items-center gap-2 cursor-pointer"
+                onClick={() => setModal("search")}
+                className=" flex items-center justify-center gap-2 hover:ring-4 border-b px-4 py-2 rounded-md"
               >
                 <FaMagnifyingGlass />
                 <span>Search</span>
               </button>
 
-              {modal && (
+              {modal === "createBlog" && (
                 <PortalModal>
-                  <Search onModalClose={setModal}></Search>
+                  <CreateBlog onModalClose={setModal} />
                 </PortalModal>
               )}
             </li>
+
+            {modal === "search" && (
+              <PortalModal>
+                <Search onModalClose={setModal}></Search>
+              </PortalModal>
+            )}
 
             {/* =================================== {USER ACCESS CONDITION} ===================================*/}
             {auth.user ? (
@@ -82,3 +98,5 @@ const Header = () => {
 };
 
 export default Header;
+
+// flex items-center justify-center gap-2 cursor-pointer text-center text-white bg-indigo-600 px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200

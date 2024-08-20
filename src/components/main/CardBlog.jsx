@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { AiFillLike } from "react-icons/ai";
 
-const CardBlog = ({ blog, onDelete }, ref) => {
+const CardBlog = ({ blog, onDelete, onEditBlog }, ref) => {
   const [toggle, setToggle] = useState(null);
   const { auth } = useAuth();
 
@@ -77,7 +77,10 @@ const CardBlog = ({ blog, onDelete }, ref) => {
 
       {toggle && (
         <div className="absolute top-2 right-4 rounded-md bg-slate-900  w-44 h-24 p-2">
-          <button className="action-menu-item hover:text-lwsGreen">
+          <button
+            onClick={() => onEditBlog(blog.id)}
+            className="action-menu-item hover:text-lwsGreen"
+          >
             <BiEdit className=" h-6 w-6" /> Edit
           </button>
           <button

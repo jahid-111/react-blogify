@@ -11,7 +11,6 @@ const Search = ({ onModalClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
-  console.log(error);
   useEffect(() => {
     const getSearchData = async (userInput) => {
       if (!userInput) {
@@ -54,7 +53,7 @@ const Search = ({ onModalClose }) => {
     <section className="fixed inset-0 w-fu  ll h-screen grid place-items-center bg-slate-800/50 backdrop-blur-sm z-50 overflow-y-auto">
       <div className="relative w-11/12 md:w-7/12 mx-auto bg-slate-900 p-4 border border-slate-600/50 rounded-lg shadow-lg shadow-slate-400/10">
         {/* Search Header */}
-        <div>
+        <div className=" mb-8">
           <h3 className="font-bold text-xl pl-2 text-slate-400 my-2">
             Search for Your Desired Blogs
           </h3>
@@ -67,7 +66,15 @@ const Search = ({ onModalClose }) => {
           />
         </div>
 
-        {searchTerm && <h3 className="mt-2 font-semibold ">Result : </h3>}
+        {searchTerm && (
+          <h3 className="mt-2 font-semibold ">
+            Result :{" "}
+            <p className=" text-orange-600 inline-block">
+              {" "}
+              {searchData.length}
+            </p>{" "}
+          </h3>
+        )}
 
         {/* Search Results */}
         <div className="max-h-96 overflow-y-auto">
@@ -110,7 +117,7 @@ const Search = ({ onModalClose }) => {
           onClick={() => onModalClose(false)}
           className="absolute right-2 top-2"
         >
-          <FaXmark className="cursor-pointer w-8 h-8 hover:text-red-500" />
+          <FaXmark className="cursor-pointer w-6 h-6 text-gray-200 hover:text-gray-400 " />
         </button>
       </div>
     </section>

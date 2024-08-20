@@ -143,3 +143,10 @@
 
 - Delete a Blog.
 - Click Open toggle.
+
+###### Commit -[27]
+
+- Search Input CCS Modify.
+- Portal Modal Create Blog.
+- improve Create-Blog Modal.
+- Search Button.
