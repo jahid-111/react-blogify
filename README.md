@@ -150,3 +150,8 @@
 - Portal Modal Create Blog.
 - improve Create-Blog Modal.
 - Search Button.
+
+###### Commit -[28]
+
+- Update a Blog
+- API Patch and Post Conditional

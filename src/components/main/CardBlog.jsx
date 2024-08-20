@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import { forwardRef, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { HiDotsVertical } from "react-icons/hi";
@@ -7,10 +6,15 @@ import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { AiFillLike } from "react-icons/ai";
+import PortalModal from "../root-modal/PortalModal";
+import CreateBlog from "../pages/Create-blog";
 
-const CardBlog = ({ blog, onDelete, onEditBlog }, ref) => {
+const CardBlog = ({ blog, onDelete }, ref) => {
   const [toggle, setToggle] = useState(null);
   const { auth } = useAuth();
+  const [modal, setModal] = useState(null);
+
+  () => setModal(null); //IIFE
 
   const blogAuthor = auth?.user?.id === blog?.author?.id;
 
@@ -78,11 +82,24 @@ const CardBlog = ({ blog, onDelete, onEditBlog }, ref) => {
       {toggle && (
         <div className="absolute top-2 right-4 rounded-md bg-slate-900  w-44 h-24 p-2">
           <button
-            onClick={() => onEditBlog(blog.id)}
+            onClick={() => {
+              setModal("EDIT-BLOG");
+            }}
             className="action-menu-item hover:text-lwsGreen"
           >
             <BiEdit className=" h-6 w-6" /> Edit
           </button>
+
+          {modal === "EDIT-BLOG" && (
+            <PortalModal>
+              {" "}
+              <CreateBlog
+                onModalClose={setModal}
+                editBlogValue={blog}
+              ></CreateBlog>{" "}
+            </PortalModal>
+          )}
+
           <button
             onClick={() => onDelete(blog.id)}
             className="action-menu-item hover:text-red-500"

@@ -75,12 +75,6 @@ const BlogList = () => {
     }
   };
 
-  const handleEditBlog = (blogId) => {
-    console.log(blogId);
-    const getEditBlog = blogs.find((blog) => blog.id === blogId);
-    console.log("Under Development EDIT BLOG ", getEditBlog);
-  };
-
   return (
     <div className="space-y-3 md:col-span-5">
       {blogs?.map((blog, index) => {
@@ -89,19 +83,13 @@ const BlogList = () => {
             <CardBlog
               ref={lastBlogElementRef}
               onDelete={handleDeleteBlog}
-              onEditBlog={handleEditBlog}
               key={blog.id}
               blog={blog}
             />
           );
         } else {
           return (
-            <CardBlog
-              onDelete={handleDeleteBlog}
-              onEditBlog={handleEditBlog}
-              key={blog.id}
-              blog={blog}
-            />
+            <CardBlog onDelete={handleDeleteBlog} key={blog.id} blog={blog} />
           );
         }
       })}

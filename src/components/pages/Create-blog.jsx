@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaImage } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../data-api";
@@ -7,16 +7,29 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
 import { FaXmark } from "react-icons/fa6";
 
-const CreateBlog = ({ onModalClose }) => {
+const CreateBlog = ({ onModalClose, editBlogValue }) => {
   const navigate = useNavigate();
   const fileRef = useRef(null);
+  const { auth } = useAuth();
+
   const [blogState, setBlogState] = useState({
     title: "",
     content: "",
     tags: "",
     thumbnail: null,
+    // isFavorite: null, //Under DEVELOPE
   });
-  const { auth } = useAuth();
+
+  useEffect(() => {
+    if (editBlogValue) {
+      setBlogState({
+        title: editBlogValue.title || "",
+        content: editBlogValue.content || "",
+        tags: editBlogValue.tags || "",
+        thumbnail: editBlogValue.thumbnail || null,
+      });
+    }
+  }, [editBlogValue]);
 
   const callFileInput = (e) => {
     e.preventDefault();
@@ -26,7 +39,7 @@ const CreateBlog = ({ onModalClose }) => {
   const handleBlogUpload = async (e) => {
     e.preventDefault();
 
-    const blogId = crypto.randomUUID();
+    const blogId = editBlogValue?.id || crypto.randomUUID();
     const formData = new FormData();
     const selectedFile = fileRef.current.files[0];
 
@@ -46,6 +59,7 @@ const CreateBlog = ({ onModalClose }) => {
         .filter((tag) => tag.length > 0)
         .join(", ")
     );
+
     if (selectedFile) {
       const uniqueFilename = generateUniqueFilename(selectedFile);
       formData.append("thumbnail", selectedFile, uniqueFilename);
@@ -53,27 +67,31 @@ const CreateBlog = ({ onModalClose }) => {
         ...prevState,
         thumbnail: uniqueFilename,
       }));
-    } else {
+    } else if (!blogState.thumbnail) {
       toast.error("Image Required");
       return;
     }
-    // =================================== POST BLOG API
-    try {
-      const response = await api.post(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/blogs`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${auth.authToken}`,
-          },
-        }
-      );
 
+    try {
+      const url = `${import.meta.env.VITE_SERVER_BASE_URL}/blogs${
+        editBlogValue ? `/${blogId}` : ""
+      }`;
+      const method = editBlogValue ? "patch" : "post";
+      const response = await api[method](url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${auth.authToken}`,
+        },
+      });
+      // console.log(response);
       if (response.data.status === "success") {
         toast.success(`${response.data.message}`);
         onModalClose(false);
         navigate(`/single-blog/${response?.data?.blog?.id}`);
+      } else if (response.status === 200) {
+        onModalClose(false);
+        toast.success("Successfully Updated Blog");
+        navigate(`/single-blog/${response?.data?.id}`);
       }
 
       setBlogState({
@@ -108,9 +126,10 @@ const CreateBlog = ({ onModalClose }) => {
         className="createBlog relative w-full p-4 md:w-8/12 bg-slate-800/90 rounded-lg"
         onSubmit={handleBlogUpload}
       >
-        {/* Modal Header with Close Button */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg font-semibold text-gray-200">Create Blog</h2>
+          <h2 className="text-lg font-semibold text-gray-200">
+            {editBlogValue ? "Edit Blog" : "Create Blog"}
+          </h2>
           <button
             onClick={() => onModalClose(false)}
             className="text-gray-400 hover:text-gray-200"
@@ -123,7 +142,7 @@ const CreateBlog = ({ onModalClose }) => {
           <div className="flex items-center gap-4 hover:scale-110 transition-all cursor-pointer text-gray-300">
             <FaImage className="w-6 h-6 text-gray-400" />
             <button onClick={callFileInput} type="button">
-              Upload Your Image
+              {blogState.thumbnail ? "Change Image" : "Upload Your Image"}
             </button>
           </div>
         </div>
@@ -141,7 +160,7 @@ const CreateBlog = ({ onModalClose }) => {
           />
         </div>
 
-        <div className="mb-6 p-2 bg-slate-700  rounded-md">
+        <div className="mb-6 p-2 bg-slate-700 rounded-md">
           <input
             type="text"
             name="tags"
@@ -168,7 +187,7 @@ const CreateBlog = ({ onModalClose }) => {
           type="submit"
           className="bg-indigo-500 border-[1px] text-white px-6 py-3 rounded-md hover:bg-indigo-600 transition-all duration-200"
         >
-          Post Blog
+          {editBlogValue ? "Update Blog" : "Post Blog"}
         </button>
       </form>
     </section>
