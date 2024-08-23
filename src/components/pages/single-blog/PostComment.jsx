@@ -2,21 +2,34 @@
 import { forwardRef } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 
-const PostComment = ({ onLoadComment, comments, onPostComment, }, focusRef) => {
+const PostComment = ({ onLoadComment, comments, onPostComment }, focusRef) => {
   const { auth } = useAuth();
 
+  const userFirstLetter = auth?.user?.firstName.slice(0, 1);
+
+  const avatarUrl = auth?.user?.avatar;
   return (
     <div className="mx-auto w-full md:w-10/12 container">
       <h2 className="text-3xl font-bold my-8">Comment ( {comments.length} )</h2>
       <div className="flex items -center space-x-4">
-        <div className="avater-img bg-indigo-600 text-white">
-          <img
-            className=" rounded-full "
-            src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${
-              auth?.user?.avatar
-            }`}
-            alt=""
-          />
+        <div
+          className={`avater-img bg-indigo-600 text-white ${
+            !auth ? "hidden" : ""
+          }`}
+        >
+          {avatarUrl ? (
+            <img
+              className="avatar-img rounded-full text-center"
+              src={`${
+                import.meta.env.VITE_SERVER_BASE_URL
+              }/uploads/avatar/${avatarUrl}`}
+              alt="Your Comment Image"
+            />
+          ) : (
+            <div className="avatar-placeholder rounded-full text-center">
+              {userFirstLetter}
+            </div>
+          )}
         </div>
 
         <div className="w-full">

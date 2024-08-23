@@ -4,6 +4,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { MdDeleteOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const BlogComments = ({ comments, onDelete }) => {
   const { auth } = useAuth();
@@ -12,36 +13,37 @@ const BlogComments = ({ comments, onDelete }) => {
   const handleToggle = (commentId) => {
     setToggledComment((prevId) => (prevId === commentId ? null : commentId));
   };
+  // console.log(comments[0]?.author?.id)
 
   return (
     <section id="comments">
       <div className="mx-auto w-full relative md:w-10/12 container">
         {comments?.map((comment) => (
           <div key={comment.id} className="flex items-start space-x-4 my-8">
-            <img
-              className="rounded-full h-8 w-8"
-              src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${
-                auth?.user?.avatar
-              }`}
-              alt=""
-            />
+            <p className=" bg-red-700 font-semibold p-2 rounded-full h-10 w-10 text-center ">
+              {comment?.author?.firstName.slice(0, 1)}{" "}
+            </p>
 
             <div className="w-full text-start">
-              <h5 className="text-slate-500 font-bold">
-                {comment?.author?.firstName} {comment?.author?.lastName}
-              </h5>
-              <p className="text-slate-300 bg-gray-900 rounded-md p-1">
+              <Link to={`/profile/${comment?.author?.id}`}>
+                <h5 className="text-slate-500 font-bold underline hover:text-green-500">
+                  {comment?.author?.firstName} {comment?.author?.lastName}
+                </h5>
+              </Link>
+              <p className="text-slate-300 rounded-md p-1 w-full text-justify">
                 {comment.content}
               </p>
             </div>
 
             <div className="relative">
-              <button
-                className=" bg-slate-900 rounded-full p-2"
-                onClick={() => handleToggle(comment.id)}
-              >
-                <HiDotsVertical />
-              </button>
+              {comment?.author?.id === auth?.user?.id && (
+                <button
+                  className=" bg-slate-800 rounded-full p-2"
+                  onClick={() => handleToggle(comment.id)}
+                >
+                  <HiDotsVertical />
+                </button>
+              )}
 
               {toggledComment === comment.id && (
                 <div className="action-modal-container">

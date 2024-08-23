@@ -9,12 +9,14 @@ import Search from "../pages/Search";
 import PortalModal from "../root-modal/PortalModal";
 import CreateBlog from "../pages/Create-blog";
 import { IoIosCreate } from "react-icons/io";
+import useFetch from "../../hooks/useFetch";
 const Header = () => {
   const { auth } = useAuth();
   const [modal, setModal] = useState(null);
-
+  console.log(auth?.user?.avatar);
   () => setModal(null); //IIFE
 
+  const { data: profile } = useFetch(`profile/${auth?.user?.id}`);
   return (
     <header>
       <nav className="container">
@@ -32,10 +34,9 @@ const Header = () => {
                   onClick={() => setModal("createBlog")}
                   className=" flex items-center justify-center gap-2 ring-2 hover:ring-4 hover:bg-indigo-700 px-4 py-2 rounded-md"
                 >
+                  <IoIosCreate className="inline-block" />
+                  <span></span>
                   <span>Write</span>
-                  <span>
-                    <IoIosCreate className="inline-block" />
-                  </span>
                 </button>
               </li>
             )}
@@ -66,7 +67,13 @@ const Header = () => {
             {auth.user ? (
               <li className="flex items-center">
                 <div className="avater-img bg-orange-600 text-white">
-                  <span className="">J</span>
+                  <img
+                    className=" w-full h-full rounded-full"
+                    src={`${
+                      import.meta.env.VITE_SERVER_BASE_URL
+                    }/uploads/avatar/${profile?.avatar}`}
+                    alt=""
+                  />
                 </div>
                 <Link to="/me">
                   <span className="text-white ml-2">
@@ -98,5 +105,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// flex items-center justify-center gap-2 cursor-pointer text-center text-white bg-indigo-600 px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200

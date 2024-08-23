@@ -12,8 +12,6 @@ const Profile = () => {
   const { id } = useParams();
   const { auth } = useAuth();
 
-  // const profileId = auth?.user?.id;
-
   const userId = id ?? auth?.user?.id;
 
   const {

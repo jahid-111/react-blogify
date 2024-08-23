@@ -155,3 +155,8 @@
 
 - Update a Blog
 - API Patch and Post Conditional
+
+###### Commit -[29]
+
+- BIO Edit condition.
+- Comment Condition
